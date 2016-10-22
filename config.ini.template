@@ -1,0 +1,9 @@
+# Configuration for multicast comms
+[Network]
+multicast_group: 224.85.80.83
+multicast_port: 12345
+
+# Get a random alpha-numeric string from GRC
+# https://www.grc.com/passwords.htm
+[Security]
+shared_key = abc123
