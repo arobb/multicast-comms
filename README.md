@@ -14,7 +14,9 @@ Pipe or provide data to `send.py` as a parameter.
 ### Start message a51214ef0 ###
 Stuff!
 ### End message a51214ef0 ###
-```
+```  
+
+Use `receive-raw.py` to see data transmitted without safety validations.
 
 ## Notes
 The data transmitted across the wire is unencrypted, so it can be read by any multicast client on your network. However, I have taken steps to allow "trusted" use, where you rely on the information even though it may be read openly.
