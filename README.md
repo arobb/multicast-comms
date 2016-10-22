@@ -15,8 +15,8 @@ Stuff!
 ```
 
 ## Notes
-The data transmitted across the wire is unencrypted, so it can be ready by any multicast client on your network. However, I have taken steps to allow "secure" use, where you rely on the information even though it may be read openly.
+The data transmitted across the wire is unencrypted, so it can be read by any multicast client on your network. However, I have taken steps to allow "trusted" use, where you rely on the information even though it may be read openly.
 
 Through the use of a shared key, as well as run-time generated random data and a transmission counter, receivers should be relatively well protected against in-flight data corruption (unintentional or otherwise) as well as duplicate transmission.
 
-Corrupted data, or data received multiple times will be silently dropped unless the debug flag is activated.
+Corrupted data, or data received multiple times will be silently dropped unless the `receive.py` debug flag is activated.
