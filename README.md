@@ -9,7 +9,7 @@ Copy `config.ini.template` to `config.ini`, and create a shared key for use by a
 ## Use
 Pipe or provide data to `send.py` as a parameter.  
 
-`receive.py` will print out the data provided to `send.py` encased between start and end tags:  
+`receive.py` will print out the data provided to `send.py` between start and end tags:  
 ```
 ### Start message a51214ef0 ###
 Stuff!
