@@ -4,7 +4,7 @@ Use these scripts to broadcast unencrypted data across your network. Originally 
 Multiple senders can send data to the same group/port, which will be received by all listeners.  
 
 ## Setup
-Copy config.ini.template to config.ini, and create a shared key for use by all your senders and receivers.  
+Copy `config.ini.template` to `config.ini`, and create a shared key for use by all your senders and receivers.  
 
 ## Use
 Pipe or provide data to `send.py` as a parameter.  
