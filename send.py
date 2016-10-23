@@ -2,9 +2,11 @@
 # http://stackoverflow.com/questions/603852/multicast-in-python
 
 import socket
-import argparse, ConfigParser, fileinput
+import argparse, ConfigParser, fileinput, inspect
 import os, hashlib
 from binascii import b2a_hex
+
+dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 # Generate random data for this use of the transmission library
 RUNTIME_ENTROPY = b2a_hex(os.urandom(32))[0:32]
@@ -15,7 +17,7 @@ TRANSMISSION_COUNTER = 0
 
 
 parser = argparse.ArgumentParser(usage='%(prog)s [options]', description='Broadcast data to multicast audience.')
-parser.add_argument('-c', '--config-file', required=False, default='config.ini', nargs='?', dest='config', help='Path to config file')
+parser.add_argument('-c', '--config-file', required=False, default=dir+'/config.ini', nargs='?', dest='config', help='Path to config file')
 parser.add_argument('-d', '--data', required=False, nargs='?', dest='data', help='Data to send. If empty uses stdin')
 parser.add_argument('-g', '--multicast-group', required=False, nargs='?', dest='group', help='Multicast group/address')
 parser.add_argument('-k', '--shared-key', required=False, nargs='?', dest='key', help='Shared key. Overrides key from config file')

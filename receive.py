@@ -10,9 +10,10 @@ import re
 import hashlib
 import time
 import collections
-import argparse, ConfigParser
+import argparse, ConfigParser, inspect
 import sys
 
+dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 # Function to allow printing to stderr
 # http://stackoverflow.com/questions/5574702/how-to-print-to-stderr-in-python
@@ -21,7 +22,7 @@ def eprint(*args, **kwargs):
 
 
 parser = argparse.ArgumentParser(usage='%(prog)s [options]', description='Broadcast data to multicast audience.')
-parser.add_argument('-c', '--config-file', required=False, default='config.ini', nargs='?', dest='config', help='Path to config file')
+parser.add_argument('-c', '--config-file', required=False, default=dir+'/config.ini', nargs='?', dest='config', help='Path to config file')
 parser.add_argument('-g', '--multicast-group', required=False, nargs='?', dest='group', help='Multicast group/address')
 parser.add_argument('-k', '--shared-key', required=False, nargs='?', dest='key', help='Shared key. Overrides key from config file')
 parser.add_argument('-p', '--multicast-port', required=False, nargs='?', dest='port', help='UDP port to use')

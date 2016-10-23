@@ -5,10 +5,12 @@
 # http://stackoverflow.com/questions/603852/multicast-in-python
 
 import socket
-import argparse, ConfigParser
+import argparse, ConfigParser, inspect
+
+dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 parser = argparse.ArgumentParser(usage='%(prog)s [options]', description='Broadcast data to multicast audience.')
-parser.add_argument('-c', '--config-file', required=False, default='config.ini', nargs='?', dest='config', help='Path to config file')
+parser.add_argument('-c', '--config-file', required=False, default=dir+'/config.ini', nargs='?', dest='config', help='Path to config file')
 parser.add_argument('-g', '--multicast-group', required=False, nargs='?', dest='group', help='Multicast group/address')
 parser.add_argument('-k', '--shared-key', required=False, nargs='?', dest='key', help='Shared key. Overrides key from config file')
 parser.add_argument('-p', '--multicast-port', required=False, nargs='?', dest='port', help='UDP port to use')
