@@ -98,7 +98,7 @@ class mListenerThread(threading.Thread):
                     pass
 
                 # If we did not match exactly four elements, skip
-                elif: match.lastindex != 4:
+                elif match.lastindex != 4:
                     pass
 
                 else:
