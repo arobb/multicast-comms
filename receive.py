@@ -60,10 +60,10 @@ while threading.active_count() > 0:
         # Grab a message from the queue if one is available
         m = config['q'].get_nowait()
 
-        print("Good transmission")
-        # print("### Start message " + m.getMessageID() + " ###")
-        # print(str(m.getData()))
-        # print("### End message " + m.getMessageID() + " ###")
+        # print("Good transmission")
+        print("### Start message " + m.getMessageID() + " ###")
+        print(str(m.getData()))
+        print("### End message " + m.getMessageID() + " ###")
         config['q'].task_done()
 
     except:
