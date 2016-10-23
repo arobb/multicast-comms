@@ -79,18 +79,28 @@ class mListenerThread(threading.Thread):
         # But this will raise an error if recv() or send() can't immediately find or send data.
         sock.setblocking(0)
 
-        while 1:
+        while True:
             try:
-                time.sleep(0.1)
+                # Attempt to read data
                 data, addr = sock.recvfrom(10240)
+
             except socket.error as e:
-                pass
+                # If something went wrong, or there was no data
+                # Sleep for a while then try again
+                time.sleep(0.1)
+
             else:
                 # Extract components of a message
                 match = re.search('^([a-zA-Z0-9]*)\n([a-zA-Z0-9]*)\n([0-9]*)\n(.*)', data, re.DOTALL)
 
+                # If there was no match, skip entirely
                 if match.lastindex == None:
                     pass
+
+                # If we did not match exactly four elements, skip
+                elif: match.lastindex != 4:
+                    pass
+
                 else:
                     m = mMessage()
                     m.setDigest( match.group(1) )
@@ -111,6 +121,7 @@ class mListenerThread(threading.Thread):
                         self.eprint("Not replayed: ", "Yes" if noreplay else "No")
                         self.eprint("Data: ", str(m.getData()))
 
+                    # If the hash or replay checks fail, continue silently
                     if not hashvalid or not noreplay:
                         #eprint("Bad transmission")
 
