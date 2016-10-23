@@ -5,7 +5,7 @@
 # http://stackoverflow.com/questions/603852/multicast-in-python
 
 import socket
-import argparse, ConfigParser, inspect
+import argparse, ConfigParser, inspect, os
 
 dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 

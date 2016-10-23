@@ -11,7 +11,7 @@ import hashlib
 import time
 import collections
 import argparse, ConfigParser, inspect
-import sys
+import os, sys
 
 dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
