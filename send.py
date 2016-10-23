@@ -16,10 +16,10 @@ TRANSMISSION_COUNTER = 0
 
 parser = argparse.ArgumentParser(usage='%(prog)s [options]', description='Broadcast data to multicast audience.')
 parser.add_argument('-c', '--config-file', required=False, default='config.ini', nargs='?', dest='config', help='Path to config file')
+parser.add_argument('-d', '--data', required=False, nargs='?', dest='data', help='Data to send. If empty uses stdin')
 parser.add_argument('-g', '--multicast-group', required=False, nargs='?', dest='group', help='Multicast group/address')
 parser.add_argument('-k', '--shared-key', required=False, nargs='?', dest='key', help='Shared key. Overrides key from config file')
 parser.add_argument('-p', '--multicast-port', required=False, nargs='?', dest='port', help='UDP port to use')
-parser.add_argument('-d', '--data', required=False, nargs='?', dest='data', help='Data to send. If empty uses stdin')
 parser.add_argument('-v', '--debug', required=False, action='store_true', dest='debug', help='Debug mode')
 args, unk = parser.parse_known_args()
 
