@@ -92,7 +92,7 @@ sock.setblocking(0)
 while 1:
     try:
         time.sleep(1)
-        data, addr = sock.recvfrom(1024)
+        data, addr = sock.recvfrom(10240)
     except socket.error as e:
         pass
     else:

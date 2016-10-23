@@ -44,7 +44,7 @@ sock.setblocking(0)
 
 while 1:
     try:
-        data, addr = sock.recvfrom(1024)
+        data, addr = sock.recvfrom(10240)
     except socket.error as e:
         pass
     else:
