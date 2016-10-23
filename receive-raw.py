@@ -5,9 +5,17 @@
 # http://stackoverflow.com/questions/603852/multicast-in-python
 
 import socket
-import argparse, ConfigParser, inspect, os
+import argparse, ConfigParser, inspect, os, signal
+
+# Gracefully handle exit requests
+# http://stackoverflow.com/questions/1112343/how-do-i-capture-sigint-in-python
+def signal_handler(signal, frame):
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
 
 dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+
 
 parser = argparse.ArgumentParser(usage='%(prog)s [options]', description='Broadcast data to multicast audience.')
 parser.add_argument('-c', '--config-file', required=False, default=dir+'/config.ini', nargs='?', dest='config', help='Path to config file')
@@ -16,8 +24,10 @@ parser.add_argument('-k', '--shared-key', required=False, nargs='?', dest='key',
 parser.add_argument('-p', '--multicast-port', required=False, nargs='?', dest='port', help='UDP port to use')
 args, unk = parser.parse_known_args()
 
+
 config = ConfigParser.SafeConfigParser()
 config.read(args.config)
+
 
 ANY = "0.0.0.0"
 MCAST_GRP = config.get('Network', 'multicast_group') if args.group is None else args.group
