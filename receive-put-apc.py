@@ -51,11 +51,18 @@ class MulticastReceiver(Daemon):
                 }
 
                 for table, field in measurements.iteritems():
+
+                    # Make sure the value exists
+                    try:
+                        fieldValue = apc.getFieldValue(field)
+                    except:
+                        continue
+
                     submission="{0},name={1},model={2} value={3} {4}".format(\
                           table \
                         , upsname \
                         , model \
-                        , apc.getFieldValue(field) \
+                        , fieldValue \
                         , epoch \
                     )
 
