@@ -38,6 +38,7 @@ class mApcMessage(mMessage):
 
 
     def __init__(self, m):
+        self.fields = {}
         self.setDigest(m.getDigest())
         self.setEntropy(m.getEntropy())
         self.setCounter(m.getCounter())
