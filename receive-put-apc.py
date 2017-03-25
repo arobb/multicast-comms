@@ -32,7 +32,7 @@ class MulticastReceiver(Daemon):
                 m = config['q'].get_nowait()
                 apc = mApcMessage(m)
 
-                influxhostport="raspberrypi.local:8086"
+                influxhostport="rpi-admin00.local:8086"
                 influxdatabase="power"
 
                 url     = "http://{0}/write?db={1}&precision=s".format(influxhostport, influxdatabase)
