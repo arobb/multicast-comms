@@ -1,14 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Multicast client
 # Adapted from: http://chaos.weblogs.us/archives/164
 # http://stackoverflow.com/questions/15197569/any-small-program-to-receive-multicast-packets-on-specified-udp-port
 # http://stackoverflow.com/questions/603852/multicast-in-python
 
-import argparse, ConfigParser, inspect
+import argparse, configparser, inspect
 import os, sys, time, signal, threading
-from Queue import Queue
+from queue import Queue
 from mListener import mListenerThread
-from mMessage import mMessage
 
 
 # Absolute directory of the execution script
@@ -36,7 +35,7 @@ args, unk = parser.parse_known_args()
 
 
 # Process the config file
-config_parser = ConfigParser.SafeConfigParser()
+config_parser = configparser.ConfigParser()
 config_parser.read(args.config)
 
 
@@ -47,7 +46,7 @@ config['ANY'] = "0.0.0.0"
 config['DEBUG'] = args.debug
 config['MCAST_GRP'] = config_parser.get('Network', 'multicast_group') if args.group is None else args.group
 config['MCAST_PORT'] = config_parser.getint('Network', 'multicast_port') if args.port is None else int(args.port)
-config['SHARED_KEY'] = config_parser.get('Security', 'shared_key', 1) if args.key is None else args.key
+config['SHARED_KEY'] = config_parser.get('Security', 'shared_key') if args.key is None else args.key
 
 
 # Create an instance of the multicast listener

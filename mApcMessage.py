@@ -1,7 +1,6 @@
 # APC UPS message
 from mMessage import mMessage
 import re
-from pprint import pprint
 
 
 class SimpleValue:

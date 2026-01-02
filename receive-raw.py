@@ -1,11 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Multicast client
 # Adapted from: http://chaos.weblogs.us/archives/164
 # http://stackoverflow.com/questions/15197569/any-small-program-to-receive-multicast-packets-on-specified-udp-port
 # http://stackoverflow.com/questions/603852/multicast-in-python
 
 import socket
-import argparse, ConfigParser, inspect, os, signal
+import argparse, configparser, inspect, os, signal
+import sys
 
 # Gracefully handle exit requests
 # http://stackoverflow.com/questions/1112343/how-do-i-capture-sigint-in-python
@@ -25,7 +26,7 @@ parser.add_argument('-p', '--multicast-port', required=False, nargs='?', dest='p
 args, unk = parser.parse_known_args()
 
 
-config = ConfigParser.SafeConfigParser()
+config = configparser.ConfigParser()
 config.read(args.config)
 
 
@@ -58,5 +59,5 @@ while 1:
     except socket.error as e:
         pass
     else:
-        print "From: ", addr
-        print "Data: ", data
+        print("From: ", addr)
+        print("Data: ", data)

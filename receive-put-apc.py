@@ -1,16 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Multicast client
 # Adapted from: http://chaos.weblogs.us/archives/164
 # http://stackoverflow.com/questions/15197569/any-small-program-to-receive-multicast-packets-on-specified-udp-port
 # http://stackoverflow.com/questions/603852/multicast-in-python
 
-import argparse, ConfigParser, inspect
+import argparse, configparser, inspect
 import os, sys, time, signal, threading
-from Queue import Queue
+from queue import Queue
 from mListener import mListenerThread
-from mMessage import mMessage
 from mApcMessage import mApcMessage
-import urllib2
+from urllib import request
+from urllib import error as urllib_errors
 from daemon import Daemon
 
 
@@ -41,16 +41,16 @@ class MulticastReceiver(Daemon):
                 upsname = apc.getFieldValue('UPSNAME').replace(' ', '_')
                 model   = apc.getFieldValue('MODEL').replace(' ', '_')
 
-                measurements = { \
-                      'power_line_volts': 'LINEV' \
-                    , 'power_load_pct': 'LOADPCT' \
-                    , 'power_battery_volts': 'BATTV' \
-                    , 'power_minutes_left': 'TIMELEFT' \
-                    , 'power_battery_charge_pct': 'BCHARGE' \
-                    , 'power_seconds_on_battery': 'TONBATT' \
+                measurements = {
+                    'power_line_volts': 'LINEV'
+                    , 'power_load_pct': 'LOADPCT'
+                    , 'power_battery_volts': 'BATTV'
+                    , 'power_minutes_left': 'TIMELEFT'
+                    , 'power_battery_charge_pct': 'BCHARGE'
+                    , 'power_seconds_on_battery': 'TONBATT'
                 }
 
-                for table, field in measurements.iteritems():
+                for table, field in measurements.items():
 
                     # Make sure the value exists
                     try:
@@ -58,41 +58,40 @@ class MulticastReceiver(Daemon):
                     except:
                         continue
 
-                    submission="{0},name={1},model={2} value={3} {4}".format(\
-                          table \
-                        , upsname \
-                        , model \
-                        , fieldValue \
-                        , epoch \
+                    submission="{0},name={1},model={2} value={3} {4}".format(
+                        table
+                        , upsname
+                        , model
+                        , fieldValue
+                        , epoch
                     )
 
                     try:
-                        req    = urllib2.Request(url, headers={'Content-Type': 'text/plain'})
-                        result = urllib2.urlopen(url=req, data=submission, timeout=5)
+                        req = request.Request(url, headers={'Content-Type': 'text/plain'})
+                        result = request.urlopen(url=req, data=submission.encode('utf-8'), timeout=5)
 
                     except Exception as e:
-                        print "Attempted to send '{0}'".format(submission)
-                        print e
-
+                        print("Attempted to send '{0}'".format(submission))
+                        print(e)
 
                 # Handle status separately because it's a non-numeric value
                 table="power_status"
                 field="STATUS"
-                submission="{0},name={1},model={2} value=\"{3}\" {4}".format(\
-                      table \
-                    , upsname \
-                    , model \
-                    , apc.getFieldValue(field).lower() \
-                    , epoch \
+                submission="{0},name={1},model={2} value=\"{3}\" {4}".format(
+                    table
+                    , upsname
+                    , model
+                    , apc.getFieldValue(field).lower()
+                    , epoch
                 )
 
                 try:
-                    req    = urllib2.Request(url, headers={'Content-Type': 'text/plain'})
-                    result = urllib2.urlopen(url=req, data=submission, timeout=5)
+                    req = request.Request(url, headers={'Content-Type': 'text/plain'})
+                    result = request.urlopen(url=req, data=submission.encode('utf-8'), timeout=5)
 
-                except (urllib2.URLError, urllib2.HTTPError) as e:
-                    print "Attempted to send '{0}'".format(submission)
-                    print e.reason
+                except (urllib_errors.URLError, urllib_errors.HTTPError) as e:
+                    print("Attempted to send '{0}'".format(submission))
+                    print(e.reason)
 
                 # BATTV, MODEL, TIMELEFT, BCHARGE, TONBATT, LINEV, STATUS, LOADPCT, UPSNAME
                 # power_status,name=upsname,model=model value=STATUS epoch
@@ -139,7 +138,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--multicast-port', required=False, nargs='?', dest='port', help='UDP port to use')
     parser.add_argument('-v', '--debug', required=False, action='store_true', dest='debug', help='Debug mode')
 
-    sp = parser.add_subparsers()
+    sp = parser.add_subparsers(required=True, help='Must provide one positional argument, either "start", "stop" or "restart".')
     sp_start   = sp.add_parser('start', help='Start Daemon mode')
     sp_start.set_defaults(func=daemon.start)
 
@@ -153,7 +152,7 @@ if __name__ == '__main__':
 
 
     # Process the config file
-    config_parser = ConfigParser.SafeConfigParser()
+    config_parser = configparser.ConfigParser()
     config_parser.read(args.config)
 
 
@@ -164,7 +163,7 @@ if __name__ == '__main__':
     config['DEBUG'] = args.debug
     config['MCAST_GRP'] = config_parser.get('Network', 'multicast_group') if args.group is None else args.group
     config['MCAST_PORT'] = config_parser.getint('Network', 'multicast_port') if args.port is None else int(args.port)
-    config['SHARED_KEY'] = config_parser.get('Security', 'shared_key', 1) if args.key is None else args.key
+    config['SHARED_KEY'] = config_parser.get('Security', 'shared_key') if args.key is None else args.key
 
 
     # Trigger the requested function
